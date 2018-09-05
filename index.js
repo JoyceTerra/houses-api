@@ -15,6 +15,9 @@ const House = sequelize.define('house', {
   tableName: 'houses'
 })
 
+House.sync() //generates the table for sequelize --sync yout tables with db
+
+
 // House.create({ // creates a new house
 //   title: 'Multi Million Estate',
 //   description: 'This was build by a super-duper rich programmer',
@@ -22,7 +25,6 @@ const House = sequelize.define('house', {
 //   price: 98400000
 // }).then(house => console.log(`The house is now created. The ID = ${house.id}`))
 
-House.sync() //generates the table for sequelize --sync yout tables with db
 
 app.get('/houses', function (req, res, next) { //finds all houses
   House.findAll()
@@ -44,11 +46,10 @@ app.get('/houses/:id', function (req, res, next) { // find a house by id
 })
 
 
-
 app.post('/houses', function (req, res) { //posts the house
   House
     .create(req.body)
-    .then(house => res.status(201).json(house))
+    .then(house => res.status(201).json(house)) //gets the house back with a status
     .catch(err => {
       res.status(500).json({
         message: 'Something went wrong',
@@ -56,7 +57,6 @@ app.post('/houses', function (req, res) { //posts the house
       })
     })
 })
-
 
   app.put('/houses/:id', function (req, res) {
     const id = req.params.id
@@ -82,6 +82,18 @@ app.post('/houses', function (req, res) { //posts the house
     })
 })
 
+// app.put('/houses/:id', function (req, res) {
+//   const id = req.params.id
+//   House
+//   .findById(id)
+//   .then(house => res.status(201).json(house))
+//   .catch(err => {
+//       res.status(500).json({
+//           message: 'internal error',
+//           error: err
+//       })
+//   })
+// })
 
 app.delete('/houses/:id', function (req, res) {
   const id = req.params.id
@@ -99,6 +111,26 @@ app.delete('/houses/:id', function (req, res) {
     })
 })
 
+//to do 
+// app.delete('/houses/:id', function (req, res) {
+//   const id = req.params.id
+//   House
+//   .findById(id)
+//   .then(house =>{
+//     if(house)
+//       return house.destroy() //empty because there is nothing to be returned
+//     }else{
+//     res.status(404).json({
+//       message: 'House does not exist', house
+//     })
+//   }
+//     .catch(err => {
+//       res.status(500).json({
+//           message: 'internal error',
+//           error: err
+//       })
+//   })
+// })
 
 
 const port = 4000
